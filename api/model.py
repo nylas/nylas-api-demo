@@ -34,11 +34,11 @@ class User(db.Model):
         self.nylas_access_token = nylas_access_token
         self.set_password(password)
 
-    def set_password(self, password):
+    def set_password(self, password: str) -> None:
         pw_bytes = password.encode('utf-8')
         self.password_hash = nacl.pwhash.str(pw_bytes)
 
-    def check_password(self, password):
+    def check_password(self, password: str) -> bool:
         try:
             pw_bytes = password.encode('utf-8')
             # Will return True or raise `nacl.exceptions.InvalidkeyError`

@@ -1,6 +1,7 @@
 import json
+from typing import Tuple, Optional
 
-from flask import jsonify, request, session
+from flask import jsonify, request, session, Response
 
 from api.index import app, db
 from api.model import User
@@ -9,14 +10,16 @@ from api.nylas import NylasAPI
 NYLAS_ACCESS_TOKEN_KEY = 'nylas_access_token'
 
 
-def get_nylas_api():
+def get_nylas_api() -> Optional[NylasAPI]:
     nylas_access_token = session.get(NYLAS_ACCESS_TOKEN_KEY)
     if nylas_access_token:
         return NylasAPI(nylas_access_token)
+    else:
+        return None
 
 
 @app.route('/login', methods=['POST'])
-def login():
+def login() -> Tuple[Response, int]:
     if request.data:
         body = json.loads(request.data)
         email, password = body.get('email'), body.get('password')
@@ -36,7 +39,7 @@ def login():
 
 
 @app.route('/threads', methods=['GET'])
-def get_threads():
+def get_threads() -> Tuple[Response, int]:
     nylas_api = get_nylas_api()
 
     if nylas_api:
@@ -48,7 +51,7 @@ def get_threads():
 
 
 @app.route('/send', methods=['POST'])
-def send_email():
+def send_email() -> Tuple[Response, int]:
     nylas_api = get_nylas_api()
 
     if nylas_api:

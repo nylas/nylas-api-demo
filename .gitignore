@@ -1,8 +1,12 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # Ignore Python binary files & metadata
+*.egg-info/
 *.py[cod]
 __pycache__
+
+# mypy
+.mypy_cache/
 
 # pycharm
 .idea/

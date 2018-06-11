@@ -33,6 +33,9 @@ To use the API without implementing authentication, visit the [Nylas Dashboard](
 ### Run:
 `flask run`
 
+## Lint:
+`mypy api --ignore-missing-imports`
+
 
 ## How to run the Frontend
 
