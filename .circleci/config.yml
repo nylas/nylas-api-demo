@@ -1,24 +1,24 @@
 version: 2
 jobs:
-   build:
-     docker:
-       - image: circleci/python:3.6.5-stretch-node
-     steps:
-       - checkout
-       - run:
+  build:
+    docker:
+      - image: circleci/python:3.6.5-stretch-node
+    steps:
+      - checkout
+
+      - run:
           name: Setup dependencies
           command: |
-              virtualenv .venv --python=python3
-              source .venv/bin/activate
+            virtualenv .venv --python=python3
+            source .venv/bin/activate
 
-              find . -name \*.pyc -delete
+            find . -name \*.pyc -delete
 
-              pip3 install -r requirements.txt | cat
-              pip3 install --editable . | cat
+            pip3 install -r requirements.txt | cat
+            pip3 install --editable . | cat
+
       - run:
-           name: Run linters
-           command: |
-               # Fatal lint errors before installing all deps to fail fast
-               # Fail on flake8 errors
-               source .venv/bin/activate
-               mypy api --ignore-missing-imports
+          name: Run linters
+          command: |
+            source .venv/bin/activate
+            mypy api --ignore-missing-imports
