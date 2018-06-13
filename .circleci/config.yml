@@ -22,3 +22,9 @@ jobs:
           command: |
             source .venv/bin/activate
             mypy api --ignore-missing-imports
+
+      - run:
+          name: Run tests
+          command: |
+            source .venv/bin/activate
+            pytest -v

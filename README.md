@@ -36,6 +36,9 @@ To use the API without implementing authentication, visit the [Nylas Dashboard](
 ## Lint:
 `mypy api --ignore-missing-imports`
 
+## Test:
+`pytest`
+
 
 ## How to run the Frontend
 

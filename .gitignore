@@ -15,6 +15,7 @@ __pycache__
 /node_modules
 
 # testing
+.pytest_cache/
 /coverage
 
 # production

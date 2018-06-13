@@ -8,6 +8,7 @@ from urllib.parse import urljoin
 BASE_NYLAS_API = 'https://api.nylas.com'
 GET_METHOD = 'GET'
 POST_METHOD = 'POST'
+PUT_METHOD = 'PUT'
 RETRIES = 3
 RETRY_STATUS_CODES = {429, 500, 502, 503, 504}
 
@@ -40,6 +41,8 @@ class NylasAPI(object):
             request_func = requests.get  # type: Callable
         elif method == POST_METHOD:
             request_func = requests.post
+        elif method == PUT_METHOD:
+            request_func = requests.put
 
         for attempt in range(1, RETRIES + 1):
 
@@ -56,6 +59,20 @@ class NylasAPI(object):
                 return response.json(), response.status_code
 
         return {'message': 'Unknown Error; Retries Exhausted.'}, response.status_code
+
+    def create_event(self, json: dict) -> Tuple[Dict[str, str], int]:
+        """
+        Create an event through the Nylas API.
+        See: https://docs.nylas.com/reference#post-event
+        """
+        return self._call_api_endpoint('events', POST_METHOD, json=json)
+
+    def get_calendars(self) -> Tuple[Dict[str, str], int]:
+        """
+        Query the Nylas API for an account's calendars.
+        See: https://docs.nylas.com/reference#calendars-1
+        """
+        return self._call_api_endpoint('calendars', GET_METHOD)
 
     def get_thread(self, thread_id: str) -> Tuple[Dict[str, str], int]:
         """
@@ -78,3 +95,11 @@ class NylasAPI(object):
         See: https://docs.nylas.com/reference#sending-directly
         """
         return self._call_api_endpoint('send', POST_METHOD, json=json)
+
+    def update_event(self, event_id: str, json: dict) -> Tuple[Dict[str, str], int]:
+        """
+        Update an event through the Nylas API.
+        See: https://docs.nylas.com/reference#eventsid
+        """
+        endpoint = 'events/{id}'.format(id=event_id)
+        return self._call_api_endpoint(endpoint, PUT_METHOD, json=json)
