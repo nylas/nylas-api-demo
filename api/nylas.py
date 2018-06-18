@@ -1,6 +1,6 @@
 from random import uniform
 from time import sleep
-from typing import Any, Dict, Callable, Optional, Tuple
+from typing import Any, Callable, Dict, Optional, Tuple
 
 import requests
 from urllib.parse import urljoin
@@ -56,7 +56,12 @@ class NylasAPI(object):
                 max_sleep_time = 2 ** attempt
                 sleep(uniform(max_sleep_time / 2, max_sleep_time))
             else:
-                return response.json(), response.status_code
+                if len(response.text) == 0:
+                    response_json = {}  # type: Dict[str, str]
+                else:
+                    response_json = response.json()
+
+                return response_json, response.status_code
 
         return {'message': 'Unknown Error; Retries Exhausted.'}, response.status_code
 
@@ -74,12 +79,27 @@ class NylasAPI(object):
         """
         return self._call_api_endpoint('calendars', GET_METHOD)
 
+    def get_event(self, event_id: str) -> Tuple[Dict[str, str], int]:
+        """
+        Query the Nylas API for a specific email thread.
+        See:  https://docs.nylas.com/reference#get-event
+        """
+        endpoint = 'events/{id}'.format(id=event_id)
+        return self._call_api_endpoint(endpoint, GET_METHOD)
+
+    def get_messages(self, json: dict) -> Tuple[Dict[str, str], int]:
+        """
+        Query the Nylas API for messages (can limit by thread_id/to/from/subject values).
+        See:  https://docs.nylas.com/reference#messages-1
+        """
+        return self._call_api_endpoint('messages', GET_METHOD, json=json)
+
     def get_thread(self, thread_id: str) -> Tuple[Dict[str, str], int]:
         """
         Query the Nylas API for a specific email thread.
         See:  https://docs.nylas.com/reference#threadsid
         """
-        endpoint = 'thread/{id}'.format(id=thread_id)
+        endpoint = 'threads/{id}'.format(id=thread_id)
         return self._call_api_endpoint(endpoint, GET_METHOD)
 
     def get_threads(self, json: dict) -> Tuple[Dict[str, str], int]:

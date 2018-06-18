@@ -10,6 +10,17 @@ class TestAPI(NylasApiDemoTest):
                              json={'email': self.default_user['email'],
                                    'password': self.default_user['password']})
 
+    def test_404_authenticated_user(self):
+        # test that authenticated users get 404 Not Found responses on invalid paths
+        self._login_user()
+        result = self.app.get('/not_a_route')
+        assert result.status_code == 404
+
+    def test_404_unauthenticated_user(self):
+        # test that unauthenticated users get 401 Unauthorized responses on invalid paths
+        result = self.app.get('/not_a_route')
+        assert result.status_code == 401
+
     def test_login_valid_credentials(self):
         # Test that requests with valid credentials are handled correctly
         good_result = self._login_user()
@@ -18,7 +29,7 @@ class TestAPI(NylasApiDemoTest):
     def test_login_missing_credentials(self):
         # Test that requests missing email/password credentials are handled correctly
         incomplete_result = self.app.post('/login')
-        assert incomplete_result.status_code == 400
+        assert incomplete_result.status_code == 401
 
     def test_login_invalid_credentials(self):
         # Test that requests with incorrect credentials are handled correctly
@@ -30,7 +41,7 @@ class TestAPI(NylasApiDemoTest):
     def test_create_event_invalid_credentials(self):
         # test that unauthenticated users cannot access endpoint
         result = self.app.post('/events', json={'x': 'y'})
-        assert result.status_code == 400
+        assert result.status_code == 401
 
     @responses.activate
     def test_create_event(self):
@@ -44,7 +55,7 @@ class TestAPI(NylasApiDemoTest):
     def test_get_calendars_invalid_credentials(self):
         # test that unauthenticated users cannot access endpoint
         result = self.app.get('/calendars')
-        assert result.status_code == 400
+        assert result.status_code == 401
 
     @responses.activate
     def test_get_calendars(self):
@@ -55,24 +66,72 @@ class TestAPI(NylasApiDemoTest):
         assert result.json == {'foo': 'bar'}
         assert result.status_code == 200
 
+    def test_get_event_invalid_credentials(self):
+        # test that unauthenticated users cannot access endpoint
+        result = self.app.get('/events/a7shakd9s')
+        assert result.status_code == 401
+
+    @responses.activate
+    def test_get_event(self):
+        # test that authenticated users get correct data
+        self._login_user()
+        responses.add(responses.GET, 'https://api.nylas.com/events/a7shakd9s', json={'foo': 'bar'}, status=200)
+        result = self.app.get('/events/a7shakd9s')
+        assert result.json == {'foo': 'bar'}
+        assert result.status_code == 200
+
+    @responses.activate
+    def test_get_event_invalid_id(self):
+        # test that authenticated users get 404s if the Nylas API returns a 404.
+        self._login_user()
+        responses.add(responses.GET, 'https://api.nylas.com/events/invalid_event_id', status=404)
+        result = self.app.get('/events/invalid_event_id')
+        assert result.status_code == 404
+
+    def test_get_messages_invalid_credentials(self):
+        # test that unauthenticated users cannot access endpoint
+        result = self.app.get('/messages')
+        assert result.status_code == 401
+
+    @responses.activate
+    def test_get_messages(self):
+        # test that authenticated users get correct data
+        self._login_user()
+        responses.add(responses.GET, 'https://api.nylas.com/messages', json={'foo': 'bar'}, status=200)
+        result = self.app.get('/messages')
+        assert result.json == {'foo': 'bar'}
+        assert result.status_code == 200
+
+    @responses.activate
+    def test_get_messages_from_thread(self):
+        # test that authenticated users get correct data
+        self._login_user()
+        responses.add(responses.GET,
+                      'https://api.nylas.com/messages?thread_id=1h6wfd9fkt2u47',
+                      json={'foo': 'bar'},
+                      status=200)
+        result = self.app.get('/messages?thread_id=1h6wfd9fkt2u47')
+        assert result.json == {'foo': 'bar'}
+        assert result.status_code == 200
+
     def test_get_thread_invalid_credentials(self):
         # test that unauthenticated users cannot access endpoint
         result = self.app.get('/thread/1h6wfd9fkt2u47')
-        assert result.status_code == 400
+        assert result.status_code == 401
 
     @responses.activate
     def test_get_thread(self):
         # test that authenticated users get correct data
         self._login_user()
-        responses.add(responses.GET, 'https://api.nylas.com/thread/1h6wfd9fkt2u47', json={'foo': 'bar'}, status=200)
-        result = self.app.get('/thread/1h6wfd9fkt2u47')
+        responses.add(responses.GET, 'https://api.nylas.com/threads/1h6wfd9fkt2u47', json={'foo': 'bar'}, status=200)
+        result = self.app.get('/threads/1h6wfd9fkt2u47')
         assert result.json == {'foo': 'bar'}
         assert result.status_code == 200
 
     def test_get_threads_invalid_credentials(self):
         # test that unauthenticated users cannot access endpoint
         result = self.app.get('/threads')
-        assert result.status_code == 400
+        assert result.status_code == 401
 
     @responses.activate
     def test_get_threads(self):
@@ -86,7 +145,7 @@ class TestAPI(NylasApiDemoTest):
     def test_send_mail_invalid_credentials(self):
         # test that unauthenticated users cannot access endpoint
         result = self.app.post('/send', json={'x': 'y'})
-        assert result.status_code == 400
+        assert result.status_code == 401
 
     @responses.activate
     def test_send_mail(self):
@@ -100,7 +159,7 @@ class TestAPI(NylasApiDemoTest):
     def test_update_event_invalid_credentials(self):
         # test that unauthenticated users cannot access endpoint
         result = self.app.put('/events/1h6wfd9fkt2u47', json={'x': 'y'})
-        assert result.status_code == 400
+        assert result.status_code == 401
 
     @responses.activate
     def test_update_event(self):

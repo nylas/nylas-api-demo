@@ -21,7 +21,7 @@ def get_nylas_api() -> NylasAPI:
 def check_authorization() -> Optional[Tuple[Response, int]]:
     nylas_access_token = session.get(NYLAS_ACCESS_TOKEN_KEY)
     if request.path != '/login' and not nylas_access_token:
-        return jsonify({'message': 'Missing credentials'}), 400
+        return jsonify({'message': 'Missing credentials'}), 401
     return None
 
 
@@ -42,7 +42,7 @@ def login() -> Tuple[Response, int]:
             else:
                 return jsonify({'message': 'Invalid credentials'}), 401
 
-    return jsonify({'message': 'Missing credentials'}), 400
+    return jsonify({'message': 'Missing credentials'}), 401
 
 
 @app.route('/calendars', methods=['GET'])
@@ -60,11 +60,26 @@ def create_event() -> Tuple[Response, int]:
     return jsonify(response_json), status_code
 
 
+@app.route('/events/<event_id>', methods=['GET'])
+def get_event(event_id) -> Tuple[Response, int]:
+    nylas_api = get_nylas_api()
+    response_json, status_code = nylas_api.get_event(event_id)
+    return jsonify(response_json), status_code
+
+
 @app.route('/events/<event_id>', methods=['PUT'])
 def update_event(event_id) -> Tuple[Response, int]:
     nylas_api = get_nylas_api()
     event_json = request.json
     response_json, status_code = nylas_api.update_event(event_id, event_json)
+    return jsonify(response_json), status_code
+
+
+@app.route('/messages', methods=['GET'])
+def get_messages() -> Tuple[Response, int]:
+    nylas_api = get_nylas_api()
+    message_json = request.json
+    response_json, status_code = nylas_api.get_messages(message_json)
     return jsonify(response_json), status_code
 
 
@@ -76,7 +91,7 @@ def send_email() -> Tuple[Response, int]:
     return jsonify(response_json), status_code
 
 
-@app.route('/thread/<thread_id>', methods=['GET'])
+@app.route('/threads/<thread_id>', methods=['GET'])
 def get_thread(thread_id) -> Tuple[Response, int]:
     nylas_api = get_nylas_api()
     response_json, status_code = nylas_api.get_thread(thread_id)
