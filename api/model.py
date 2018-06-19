@@ -26,13 +26,28 @@ class User(db.Model):
                                                  SECRET_ENCRYPTION_KEY,
                                                  AesEngine,
                                                  'pkcs5'))
+    default_calendar = db.Column(db.String(255))
+    display_logo = db.Column(db.String(255))
+    display_text = db.Column(db.String(255))
 
     def __init__(self, first_name, last_name, email, password, nylas_access_token):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
         self.nylas_access_token = nylas_access_token
+        self.display_logo = 'https://admin.nylas.com/favicon.ico'
+        self.display_text = 'Nylas API Demo'
         self.set_password(password)
+
+    def serialize(self):
+        """Data for frontend to display"""
+        return {'id': self.id,
+                'firstName': self.first_name,
+                'lastName': self.last_name,
+                'email': self.email,
+                'defaultCalendar': self.default_calendar,
+                'displayLogo': self.display_logo,
+                'displayText': self.display_text}
 
     def set_password(self, password: str) -> None:
         pw_bytes = password.encode('utf-8')

@@ -8,6 +8,7 @@ from api.model import User
 from api.nylas import NylasAPI
 
 NYLAS_ACCESS_TOKEN_KEY = 'nylas_access_token'
+USER_ID_KEY = 'user_id'
 
 
 def get_nylas_api() -> NylasAPI:
@@ -35,10 +36,10 @@ def login() -> Tuple[Response, int]:
             user = db.session.query(User).filter(User.email == email).first()
 
             if user is not None and user.check_password(password) is True:
+                # persist user data in session
                 session[NYLAS_ACCESS_TOKEN_KEY] = user.nylas_access_token
-                return jsonify({'email': user.email,
-                                'firstName': user.first_name,
-                                'lastName': user.last_name}), 200
+                session[USER_ID_KEY] = user.id
+                return jsonify(user.serialize()), 200
             else:
                 return jsonify({'message': 'Invalid credentials'}), 401
 
@@ -104,3 +105,32 @@ def get_threads() -> Tuple[Response, int]:
     thread_json = request.json
     response_json, status_code = nylas_api.get_threads(thread_json)
     return jsonify(response_json), status_code
+
+
+@app.route('/user/<user_id>', methods=['PUT'])
+def update_user(user_id) -> Tuple[Response, int]:
+    """
+    Allows users to update the display text, display logo, and default calendar for their account.
+    """
+    user_id = int(user_id)
+    if user_id != session.get(USER_ID_KEY):
+        return jsonify({'message': 'Unauthorized action'}), 401
+
+    user = db.session.query(User).get(user_id)
+    user_json = request.json
+
+    if 'display_text' in user_json:
+        user.display_text = user_json['display_text']
+    if 'display_logo' in user_json:
+        user.display_logo = user_json['display_logo']
+    if 'default_calendar' in user_json:
+        user.default_calendar = user_json['default_calendar']
+
+    try:
+        db.session.add(user)
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        return jsonify({'message': 'Error Accessing Database.'}), 500
+
+    return jsonify(user.serialize()), 200

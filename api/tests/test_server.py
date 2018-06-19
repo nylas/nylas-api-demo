@@ -169,3 +169,22 @@ class TestAPI(NylasApiDemoTest):
         result = self.app.put('/events/1h6wfd9fkt2u47', json={'x': 'y'})
         assert result.json == {'foo': 'bar'}
         assert result.status_code == 200
+
+    def test_update_user(self):
+        # test that update requests to user data get properly executed
+        self._login_user()
+        result = self.app.put('/user/1', json={'display_text': 'Company Name',
+                                               'display_logo': 'http://fake_company.com/logo.png',
+                                               'default_calendar': 'as7fbds3gjsdbf'})
+        assert result.status_code == 200
+        assert result.json['displayText'] == 'Company Name'
+        assert result.json['displayLogo'] == 'http://fake_company.com/logo.png'
+        assert result.json['defaultCalendar'] == 'as7fbds3gjsdbf'
+
+    def test_update_user_bad_user(self):
+        # test that update requests to user data aren't executed if provided user_id doesn't match logged_in user
+        self._login_user()
+        result = self.app.put('/user/2', json={'display_text': 'Company Name',
+                                               'display_logo': 'http://fake_company.com/logo.png',
+                                               'default_calendar': 'as7fbds3gjsdbf'})
+        assert result.status_code == 401
