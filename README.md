@@ -30,6 +30,11 @@ Please see our [API documentation](https://docs.nylas.com/reference#authenticati
 
 To use the API without implementing authentication, visit the [Nylas Dashboard]( https://dashboard.nylas.com/sign-in) and register for a developer account. After you have registered, you can click 'Auth Account' to sync a new email account, and get your access token.
 
+### Export environment variables
+If you plan on using webhooks, the app will need your client secret in order to verify incoming webhooks. You can find your secret in the [Nylas Dashboard]( https://dashboard.nylas.com/sign-in) in the Dashboard view. Click the eye icon beside App Secret to copy/paste.
+
+`export NYLAS_OAUTH_CLIENT_SECRET=<nylas_client_secret>`
+
 ### Run:
 `flask run`
 

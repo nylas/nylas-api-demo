@@ -1,6 +1,6 @@
 from random import uniform
 from time import sleep
-from typing import Any, Callable, Dict, Optional, Tuple
+from typing import Any, Callable, Dict, Optional, Tuple, List
 
 import requests
 from urllib.parse import urljoin
@@ -87,7 +87,7 @@ class NylasAPI(object):
         endpoint = 'events/{id}'.format(id=event_id)
         return self._call_api_endpoint(endpoint, GET_METHOD)
 
-    def get_messages(self, json: dict) -> Tuple[Dict[str, str], int]:
+    def get_messages(self, json: dict) -> Tuple[List[Dict[str, Any]], int]:
         """
         Query the Nylas API for messages (can limit by thread_id/to/from/subject values).
         See:  https://docs.nylas.com/reference#messages-1
