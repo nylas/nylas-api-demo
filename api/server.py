@@ -54,6 +54,12 @@ def login() -> Tuple[Response, int]:
     return jsonify({'message': 'Missing credentials'}), 401
 
 
+@app.route('/logout', methods=['POST'])
+def logout() -> Tuple[Response, int]:
+    del session[USER_ID_KEY]
+    return jsonify('Success'), 200
+
+
 @app.route('/calendars', methods=['GET'])
 def get_calendars() -> Tuple[Response, int]:
     nylas_api = get_nylas_api()

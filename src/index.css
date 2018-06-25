@@ -1,5 +1,95 @@
+html,
 body {
-  margin: 0;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #fbfbfb;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  position: relative;
+  height: 100%;
+  max-height: 100%;
+  min-height: 750px;
+  width: 100vw;
+  min-width: 500px;
+  -webkit-font-smoothing: antialiased;
+  font-size: 16px;
+  font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 24px;
+  color: rgba(18, 28, 28, 0.8);
   padding: 0;
-  font-family: sans-serif;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+* {
+  border: 0;
+  box-sizing: inherit;
+  -webkit-font-smoothing: antialiased;
+  font-weight: inherit;
+  font-family: inherit;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  text-decoration: none;
+  text-rendering: optimizeLegibility;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+input:focus,
+button:focus,
+:link:focus,
+:visited:focus {
+  outline: auto;
+}
+
+a {
+  color: currentColor;
+  text-decoration: none;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+textarea {
+  resize: none;
+}
+
+::-webkit-input-placeholder {
+  /* WebKit, Blink, Edge */
+  color: #b2b9c6;
+}
+
+:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #b2b9c6;
+  opacity: 1;
+}
+
+::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #b2b9c6;
+  opacity: 1;
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #b2b9c6;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }

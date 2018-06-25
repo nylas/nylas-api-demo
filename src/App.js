@@ -1,35 +1,37 @@
 import React, { Component } from 'react';
 
-import LoginForm from './login';
+import LoginForm from 'components/LoginForm';
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: '',
-            logged_in: false
+            logged_in: false,
         }
-        this.handleLoginChange = this.handleLoginChange.bind(this);
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     };
 
-    handleLoginChange(event) {
-        this.setState({ [event.target.name]: event.target.value });
+    setUserData(userData) {
+        this.setState({
+            email: userData.email,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            defaultCalendar: userData.defaultCalendar,
+            displayLogo: userData.displayLogo,
+            displayText: userData.displayText
+        });
     }
 
-    async handleLoginSubmit(event) {
-        event.preventDefault();
+    async handleLoginSubmit(inputMap) {
         const response = await fetch(`/login`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-                email: this.state.email,
-                password: this.state.password
-                }),
+            body: JSON.stringify(inputMap),
         });
         if (response.status === 200) {
             // login successful
+            const userData = await response.json();
+            this.setUserData(userData);
             this.setState({ logged_in: true });
         } else if (response.status === 400) {
             // login failed
@@ -52,9 +54,6 @@ class App extends Component {
         } else {
             return (
                 <LoginForm
-                  username={this.state.email}
-                  password={this.state.password}
-                  handleLoginChange={this.handleLoginChange}
                   handleLoginSubmit={this.handleLoginSubmit}/>
             );
         }

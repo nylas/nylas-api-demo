@@ -41,6 +41,19 @@ class TestAPI(NylasApiDemoTest):
                                          'password': 'wrong_password'})
         assert bad_result.status_code == 401
 
+    def test_logout_valid_credentials(self):
+        # Test that logout is handled correctly
+        self._login_user()
+        result = self.app.post('/logout')
+        assert result.status_code == 200
+        bad_result = self.app.get('/calendars')
+        assert bad_result.status_code == 401
+
+    def test_logout_invalid_credentials(self):
+        # Test that logout from unauthenticated user is handled correctly
+        bad_result = self.app.post('/logout')
+        assert bad_result.status_code == 401
+
     def test_create_event_invalid_credentials(self):
         # test that unauthenticated users cannot access endpoint
         result = self.app.post('/events', json={'x': 'y'})

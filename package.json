@@ -4,14 +4,15 @@
   "private": true,
   "proxy": "http://localhost:5000/",
   "dependencies": {
+    "aphrodite": "^2.2.2",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-scripts": "1.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "start": "NODE_PATH=src/ react-scripts start",
+    "build": "NODE_PATH=src/ react-scripts build",
+    "test": "NODE_PATH=src/ react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
 }
