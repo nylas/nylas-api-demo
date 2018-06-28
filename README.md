@@ -47,4 +47,8 @@ If you plan on using webhooks, the app will need your client secret in order to 
 
 ## How to run the Frontend
 
+### Run:
 `npm start` runs the front-end at [http://localhost:3000](http://localhost:3000)
+
+### Lint:
+`npm run flow`

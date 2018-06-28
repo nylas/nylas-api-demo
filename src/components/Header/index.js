@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { StyleSheet } from 'aphrodite/no-important';
 import Flexbox, { type FlexboxProps } from 'components/Flexbox';

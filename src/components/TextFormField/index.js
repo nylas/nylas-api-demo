@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import FormField from 'components/FormField';
 import TextInput from 'components/TextInput';

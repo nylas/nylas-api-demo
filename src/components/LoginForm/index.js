@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { StyleSheet } from 'aphrodite/no-important';
 import { STYLES } from 'appConstants';
@@ -42,7 +43,7 @@ const styleSheet = StyleSheet.create({
 });
 
 export default function LoginForm(props) {
-return (
+  return (
     <Form styles={styleSheet.login} onSubmit={props.handleLoginSubmit}>
       <Flexbox direction="column" alignItems="center">
         <Header medium styles={styleSheet.Header}>
