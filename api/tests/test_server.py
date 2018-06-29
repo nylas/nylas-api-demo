@@ -158,6 +158,24 @@ class TestAPI(NylasApiDemoTest):
         assert result.json == {'foo': 'bar'}
         assert result.status_code == 200
 
+    @responses.activate
+    def test_get_threads_with_email(self):
+        # test that authenticated users get correct data
+        self._login_user()
+        responses.add(responses.GET,
+                      'https://api.nylas.com/threads?any_email=demo@nylas.com',
+                      json={'foo': 'bar'},
+                      status=200)
+        result = self.app.get('/threads?any_email=maria@nylas.com')
+        assert result.json == {'foo': 'bar'}
+        assert result.status_code == 200
+        responses.add(responses.GET,
+                      'https://api.nylas.com/threads',
+                      json={'notfoo': 'notbar'},
+                      status=200)
+        result2 = self.app.get('/threads?any_email=maria@nylas.com')
+        assert result2.json == {'foo': 'bar'}
+
     def test_send_mail_invalid_credentials(self):
         # test that unauthenticated users cannot access endpoint
         result = self.app.post('/send', json={'x': 'y'})

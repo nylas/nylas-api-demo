@@ -3,7 +3,7 @@ from time import sleep
 from typing import Any, Callable, Dict, Optional, Tuple, List
 
 import requests
-from urllib.parse import urljoin
+from urllib.parse import urlencode, urljoin
 
 BASE_NYLAS_API = 'https://api.nylas.com'
 GET_METHOD = 'GET'
@@ -31,13 +31,16 @@ class NylasAPI(object):
                            endpoint: str,
                            method: str,
                            headers: Optional[Dict[str, str]] = None,
-                           json: Optional[Dict[str, Any]] = None) -> Tuple[Dict[str, str], int]:
+                           json: Optional[Dict[str, Any]] = None,
+                           params: Optional[Dict[str, Any]] = None) -> Tuple[Dict[str, str], int]:
 
         headers = self._construct_headers(headers=headers)
         json = json or {}
         url = urljoin(self.base_url, endpoint)
 
         if method == GET_METHOD:
+            if params:
+                url = '{url}?{params}'.format(url=url, params=urlencode(params))
             request_func = requests.get  # type: Callable
         elif method == POST_METHOD:
             request_func = requests.post
@@ -87,12 +90,12 @@ class NylasAPI(object):
         endpoint = 'events/{id}'.format(id=event_id)
         return self._call_api_endpoint(endpoint, GET_METHOD)
 
-    def get_messages(self, json: dict) -> Tuple[List[Dict[str, Any]], int]:
+    def get_messages(self, params: dict) -> Tuple[List[Dict[str, Any]], int]:
         """
         Query the Nylas API for messages (can limit by thread_id/to/from/subject values).
         See:  https://docs.nylas.com/reference#messages-1
         """
-        return self._call_api_endpoint('messages', GET_METHOD, json=json)
+        return self._call_api_endpoint('messages', GET_METHOD, params=params)
 
     def get_thread(self, thread_id: str) -> Tuple[Dict[str, str], int]:
         """
@@ -102,12 +105,12 @@ class NylasAPI(object):
         endpoint = 'threads/{id}'.format(id=thread_id)
         return self._call_api_endpoint(endpoint, GET_METHOD)
 
-    def get_threads(self, json: dict) -> Tuple[Dict[str, str], int]:
+    def get_threads(self, params: dict) -> Tuple[Dict[str, str], int]:
         """
         Query the Nylas API for all email threads (can limit results by to/from/subject values).
         See: https://docs.nylas.com/reference#get-threads
         """
-        return self._call_api_endpoint('threads', GET_METHOD, json=json)
+        return self._call_api_endpoint('threads', GET_METHOD, params=params)
 
     def send_email(self, json: dict) -> Tuple[Dict[str, str], int]:
         """

@@ -6,27 +6,18 @@ import Form from 'components/Form';
 import Flexbox from 'components/Flexbox';
 import SubmitButton from 'components/SubmitButton';
 import TextFormField from 'components/TextFormField';
-import Header from 'components/Header';
 
 const { BACKGROUND_COLORS } = STYLES;
 
 const styleSheet = StyleSheet.create({
-  SignInForm: {
-    border: '1px solid lightgrey',
-    borderRadius: 4,
+  ThreadsForm: {
     width: '100%',
-    backgroundColor: BACKGROUND_COLORS.MAIN,
+    backgroundColor: BACKGROUND_COLORS.MAIN_INSET,
     padding: 30,
   },
-  Header: {
-    fontWeight: 500,
-    marginBottom: 10,
-    marginTop: 15,
-  },
   FormField: {
-    width: '100%',
+    width: '25%',
     margin: '0 10px',
-    marginTop: '25px',
   },
   Input: {
     padding: '10px',
@@ -43,16 +34,16 @@ const styleSheet = StyleSheet.create({
 });
 
 type Props = {
-  handleLoginSubmit: () => any,
+  handleGetThreadsSubmit: () => any,
 };
 
-export default function LoginForm(props: Props) {
+export default function ThreadsForm(props: Props) {
   return (
-    <Form styles={styleSheet.SignInForm} onSubmit={props.handleLoginSubmit}>
-      <Flexbox direction="column" alignItems="center">
-        <Header medium styles={styleSheet.Header}>
-          Sign in to the Nylas API Demo
-        </Header>
+    <Form styles={styleSheet.ThreadsForm} onSubmit={props.handleGetThreadsSubmit}>
+      <Flexbox
+        direction="row"
+        alignItems="center"
+        justifyContent="center">
         <TextFormField
           required
           autoFocus
@@ -63,17 +54,8 @@ export default function LoginForm(props: Props) {
           label="Email Address"
           placeholder="name@email.com"
           type="email" />
-        <TextFormField
-          required
-          styles={styleSheet.FormField}
-          inputStyles={styleSheet.Input}
-          labelStyles={styleSheet.Label}
-          name="password"
-          label="Password"
-          placeholder="•••••••••••"
-          type="password" />
         <SubmitButton emphasis styles={styleSheet.SubmitButton}>
-          Sign In
+          Get Emails
         </SubmitButton>
       </Flexbox>
     </Form>

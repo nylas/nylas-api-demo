@@ -144,8 +144,8 @@ def get_thread(thread_id) -> Tuple[Response, int]:
 @app.route('/threads', methods=['GET'])
 def get_threads() -> Tuple[Response, int]:
     nylas_api = get_nylas_api()
-    thread_json = request.json
-    response_json, status_code = nylas_api.get_threads(thread_json)
+    thread_args = request.args
+    response_json, status_code = nylas_api.get_threads(thread_args)
     return jsonify(response_json), status_code
 
 

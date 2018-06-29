@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 
-import LoginForm from 'components/LoginForm';
+import LoginLayout from 'layouts/LoginLayout';
 import NavBar from 'components/NavBar';
+import ThreadsLayout from 'layouts/ThreadsLayout';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       logged_in: false,
-      pageTitle: ''
+      pageContent: ''
     }
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     this.handleLogoutSubmit = this.handleLogoutSubmit.bind(this);
@@ -28,11 +29,11 @@ class App extends Component {
 
   toggleDisplayView(newView) {
     if (newView === 'calendar') {
-      this.setState({ pageTitle: 'Calendar' });
+      this.setState({ pageContent: 'Calendar' });
     } else if (newView === 'mail') {
-      this.setState({ pageTitle: 'Mail' });
+      this.setState({ pageContent: <ThreadsLayout /> });
     } else if (newView === 'settings') {
-      this.setState({ pageTitle: 'Settings' });
+      this.setState({ pageContent: 'Settings' });
     }
   }
 
@@ -93,12 +94,12 @@ class App extends Component {
             toggleDisplayView={this.toggleDisplayView}
             handleLogoutSubmit={this.handleLogoutSubmit} />
 
-          {this.state.pageTitle}
+          { this.state.pageContent }
         </div>
        );
     } else {
       return (
-          <LoginForm
+          <LoginLayout
             handleLoginSubmit={this.handleLoginSubmit}/>
       );
     }
