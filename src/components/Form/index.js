@@ -58,6 +58,8 @@ export default class Form extends Component {
         const { type, checked } = input || {};
         if (type === 'checkbox' && !checked) {
           return false;
+        } else if (type === 'radio' && !checked) {
+          return false;
         }
         return true;
       });

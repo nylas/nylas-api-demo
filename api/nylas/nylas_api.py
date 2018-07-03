@@ -32,7 +32,7 @@ class NylasAPI(object):
                            method: str,
                            headers: Optional[Dict[str, str]] = None,
                            json: Optional[Dict[str, Any]] = None,
-                           params: Optional[Dict[str, Any]] = None) -> Tuple[Dict[str, str], int]:
+                           params: Optional[Dict[str, Any]] = None) -> Tuple[Any, int]:
 
         headers = self._construct_headers(headers=headers)
         json = json or {}
@@ -60,7 +60,7 @@ class NylasAPI(object):
                 sleep(uniform(max_sleep_time / 2, max_sleep_time))
             else:
                 if len(response.text) == 0:
-                    response_json = {}  # type: Dict[str, str]
+                    response_json = {}  # type: Dict[str, Any]
                 else:
                     response_json = response.json()
 
@@ -68,21 +68,21 @@ class NylasAPI(object):
 
         return {'message': 'Unknown Error; Retries Exhausted.'}, response.status_code
 
-    def create_event(self, json: dict) -> Tuple[Dict[str, str], int]:
+    def create_event(self, json: dict) -> Tuple[Dict[str, Any], int]:
         """
         Create an event through the Nylas API.
         See: https://docs.nylas.com/reference#post-event
         """
         return self._call_api_endpoint('events', POST_METHOD, json=json)
 
-    def get_calendars(self) -> Tuple[Dict[str, str], int]:
+    def get_calendars(self) -> Tuple[List[Dict[str, Any]], int]:
         """
         Query the Nylas API for an account's calendars.
         See: https://docs.nylas.com/reference#calendars-1
         """
         return self._call_api_endpoint('calendars', GET_METHOD)
 
-    def get_event(self, event_id: str) -> Tuple[Dict[str, str], int]:
+    def get_event(self, event_id: str) -> Tuple[Dict[str, Any], int]:
         """
         Query the Nylas API for a specific email thread.
         See:  https://docs.nylas.com/reference#get-event
@@ -97,7 +97,7 @@ class NylasAPI(object):
         """
         return self._call_api_endpoint('messages', GET_METHOD, params=params)
 
-    def get_thread(self, thread_id: str) -> Tuple[Dict[str, str], int]:
+    def get_thread(self, thread_id: str) -> Tuple[Dict[str, Any], int]:
         """
         Query the Nylas API for a specific email thread.
         See:  https://docs.nylas.com/reference#threadsid
@@ -105,21 +105,21 @@ class NylasAPI(object):
         endpoint = 'threads/{id}'.format(id=thread_id)
         return self._call_api_endpoint(endpoint, GET_METHOD)
 
-    def get_threads(self, params: dict) -> Tuple[Dict[str, str], int]:
+    def get_threads(self, params: dict) -> Tuple[List[Dict[str, Any]], int]:
         """
         Query the Nylas API for all email threads (can limit results by to/from/subject values).
         See: https://docs.nylas.com/reference#get-threads
         """
         return self._call_api_endpoint('threads', GET_METHOD, params=params)
 
-    def send_email(self, json: dict) -> Tuple[Dict[str, str], int]:
+    def send_email(self, json: dict) -> Tuple[Dict[str, Any], int]:
         """
         Send an email through the Nylas API.
         See: https://docs.nylas.com/reference#sending-directly
         """
         return self._call_api_endpoint('send', POST_METHOD, json=json)
 
-    def update_event(self, event_id: str, json: dict) -> Tuple[Dict[str, str], int]:
+    def update_event(self, event_id: str, json: dict) -> Tuple[Dict[str, Any], int]:
         """
         Update an event through the Nylas API.
         See: https://docs.nylas.com/reference#eventsid

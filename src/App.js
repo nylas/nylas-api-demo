@@ -3,27 +3,30 @@ import React, { Component } from 'react';
 import LoginLayout from 'layouts/LoginLayout';
 import NavBar from 'components/NavBar';
 import ThreadsLayout from 'layouts/ThreadsLayout';
+import SettingsLayout from 'layouts/SettingsLayout';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       logged_in: false,
-      pageContent: ''
-    }
+      pageContent: '',
+    };
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     this.handleLogoutSubmit = this.handleLogoutSubmit.bind(this);
     this.toggleDisplayView = this.toggleDisplayView.bind(this);
+    this.setUserData = this.setUserData.bind(this);
   };
 
   setUserData(userData) {
     this.setState({
+      userId: userData.id,
       email: userData.email,
       firstName: userData.firstName,
       lastName: userData.lastName,
       defaultCalendar: userData.defaultCalendar,
-      companyLogo: userData.displayLogo,
-      companyText: userData.displayText
+      companyLogo: userData.companyLogo,
+      companyText: userData.companyText
     });
   }
 
@@ -33,7 +36,14 @@ class App extends Component {
     } else if (newView === 'mail') {
       this.setState({ pageContent: <ThreadsLayout /> });
     } else if (newView === 'settings') {
-      this.setState({ pageContent: 'Settings' });
+      this.setState({
+        pageContent: <SettingsLayout
+          companyLogo={this.state.companyLogo}
+          companyText={this.state.companyText}
+          defaultCalendar={this.state.defaultCalendar}
+          setUserData={this.setUserData}
+          userId={this.state.userId}/>
+      });
     }
   }
 
@@ -59,13 +69,12 @@ class App extends Component {
       // misc failure(s)
       alert('Unknown Error. Please contact your site administrator.')
     }
-
   }
 
   async handleLogoutSubmit() {
     const response = await fetch(`/logout`, {
       method: 'POST',
-      credentials: 'include'
+      credentials: 'include',
     });
     if (response.status === 200) {
       // logout successful
@@ -81,7 +90,6 @@ class App extends Component {
       // misc failure(s)
       alert('Unknown Error. Please contact your site administrator.')
     }
-
   }
 
   render() {

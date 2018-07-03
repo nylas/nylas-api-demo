@@ -111,6 +111,7 @@ export default class FormField extends Component {
       inputRef: (input: HTMLInputElement) => {
         this.input = input;
       },
+      onChange: this._onInputChange,
       'aria-label': label,
     });
     const isRow = flexDirection === 'row';

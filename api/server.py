@@ -161,12 +161,12 @@ def update_user(user_id) -> Tuple[Response, int]:
     user = db.session.query(User).get(user_id)
     user_json = request.json
 
-    if 'display_text' in user_json:
-        user.display_text = user_json['display_text']
-    if 'display_logo' in user_json:
-        user.display_logo = user_json['display_logo']
-    if 'default_calendar' in user_json:
-        user.default_calendar = user_json['default_calendar']
+    if 'companyText' in user_json:
+        user.company_text = user_json['companyText']
+    if 'companyLogo' in user_json:
+        user.company_logo = user_json['companyLogo']
+    if 'defaultCalendar' in user_json:
+        user.default_calendar = user_json['defaultCalendar']
 
     try:
         db.session.add(user)
