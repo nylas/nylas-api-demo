@@ -21,6 +21,9 @@ __pycache__
 # production
 /build
 
+# Ignore Built DB
+/api/nylasAPIDemo.db
+
 ###### OS #####
 # Ignore Mac folder metadata
 .DS_Store
