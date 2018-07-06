@@ -14,10 +14,15 @@ virtualenv .venv --python=python3
 source .venv/bin/activate
 ```
 
-### Install dependencies:
+### Install python dependencies:
 ```
 pip3 install -r requirements.txt
 pip3 install .
+```
+
+### Install react/js dependencies:
+```
+npm install
 ```
 
 ### Create database and tables:
