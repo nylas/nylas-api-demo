@@ -11,6 +11,7 @@ export type Props = FormFieldProps &
   };
 
 export default function TextFormField({
+  flexDirection,
   labelPlacement,
   labelStyles,
   type = 'text',
@@ -20,6 +21,7 @@ export default function TextFormField({
   return (
     <FormField
       {...props}
+      flexDirection={flexDirection}
       labelPlacement={labelPlacement}
       labelStyles={labelStyles}
       inputRenderer={inputProps =>

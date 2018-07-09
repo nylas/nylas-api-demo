@@ -26,9 +26,16 @@ const styleSheet = StyleSheet.create({
   },
 });
 
+type Props = {
+  lastMessageTimestamp: string,
+  threadId: string,
+  subject: string,
+  defaultExpanded?: boolean,
+};
+
 export default class Thread extends Component {
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       collapsed: true,
@@ -36,6 +43,12 @@ export default class Thread extends Component {
     }
     this.toggleDisplayMessages = this.toggleDisplayMessages.bind(this);
   };
+
+  componentDidMount() {
+    if (this.props.defaultExpanded === true) {
+      this.toggleDisplayMessages();
+    }
+  }
 
   async toggleDisplayMessages() {
     // TODO: implement REFRESH button so we re-query messages when button is clicked,
@@ -72,6 +85,7 @@ export default class Thread extends Component {
   render() {
     const messages = this.state.messages.map((message) =>
       <Message
+        key={message.id}
         date={this.makeDateString(message.date)}
         body={message.snippet}
         from={message.from[0].email} />

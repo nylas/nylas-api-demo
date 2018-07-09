@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import LoginLayout from 'layouts/LoginLayout';
 import NavBar from 'components/NavBar';
+import ComposeLayout from 'layouts/ComposeLayout';
 import ThreadsLayout from 'layouts/ThreadsLayout';
 import SettingsLayout from 'layouts/SettingsLayout';
 
@@ -33,6 +34,8 @@ class App extends Component {
   toggleDisplayView(newView) {
     if (newView === 'calendar') {
       this.setState({ pageContent: 'Calendar' });
+    } else if (newView === 'compose') {
+      this.setState({ pageContent: <ComposeLayout /> });
     } else if (newView === 'mail') {
       this.setState({ pageContent: <ThreadsLayout /> });
     } else if (newView === 'settings') {

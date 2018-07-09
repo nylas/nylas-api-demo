@@ -74,11 +74,14 @@ export default class NavDropDownMenu extends Component {
 
     const popoverBody = (
       <div onClick={this.closeMenu}>
-        <DropDownMenuItem onSelect={() => toggleDisplayView('mail')}>
-          <a>Mail</a>
-        </DropDownMenuItem>
         <DropDownMenuItem onSelect={() => toggleDisplayView('calendar')}>
           <a>Calendar</a>
+        </DropDownMenuItem>
+        <DropDownMenuItem onSelect={() => toggleDisplayView('compose')}>
+          <a>Compose</a>
+        </DropDownMenuItem>
+        <DropDownMenuItem onSelect={() => toggleDisplayView('mail')}>
+          <a>Mail</a>
         </DropDownMenuItem>
         <DropDownMenuItem onSelect={() => toggleDisplayView('settings')}>
           <a>
