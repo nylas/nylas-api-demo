@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { StyleSheet } from 'aphrodite/no-important';
+import { StyleSheet, css } from 'aphrodite/no-important';
 import { STYLES } from 'appConstants';
 import ComposeForm from 'components/ComposeForm';
 import Flexbox from 'components/Flexbox';
@@ -17,13 +17,12 @@ const styleSheet = StyleSheet.create({
   OuterContainer: {
     backgroundColor: BACKGROUND_COLORS.MAIN_INSET,
   },
-  Thread: {
+  ThreadContainer: {
     marginTop: 30,
   }
 });
 
 export default class ComposeLayout extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -66,12 +65,13 @@ export default class ComposeLayout extends Component {
 
   displayThread() {
     return <Flexbox direction="column"
-      styles={styleSheet.OuterContainer}>
+      className={css([styleSheet.OuterContainer, styleSheet.ThreadContainer])}>
         <Thread
           defaultExpanded={true}
           threadId={this.state.message.thread_id}
           lastMessageTimestamp={this.state.message.date}
           subject={this.state.message.subject}
+          pollForUpdates={true}
         />
       </Flexbox>
   }

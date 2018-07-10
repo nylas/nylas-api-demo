@@ -347,7 +347,9 @@ class TestAPI(NylasApiDemoTest):
             result = self.app.post('/webhook', json={'deltas': [{'date': 'x',
                                                                  'type': 'thread.replied',
                                                                  'object': 'thread',
-                                                                 'object_data': {'id': 'foo'}}]})
+                                                                 'object_data': {
+                                                                     'metadata': {'thread_id': 'foo'}
+                                                                 }}]})
 
         # test `foo` is marked for refresh after webhook processed
         cached_stale_event = thread_messages_cache.get('foo')
@@ -380,7 +382,9 @@ class TestAPI(NylasApiDemoTest):
             result = self.app.post('/webhook', json={'deltas': [{'date': 'x',
                                                                  'type': 'thread.replied',
                                                                  'object': 'thread',
-                                                                 'object_data': {'id': 'foobar'}}]})
+                                                                 'object_data': {
+                                                                     'metadata': {'thread_id': 'foobar'}
+                                                                 }}]})
 
         assert result.status_code == 200
         assert thread_messages_cache.get('foobar') is None

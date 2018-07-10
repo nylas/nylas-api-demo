@@ -31,6 +31,7 @@ type Props = {
   threadId: string,
   subject: string,
   defaultExpanded?: boolean,
+  pollForUpdates?: boolean,
 };
 
 export default class Thread extends Component {
@@ -42,38 +43,61 @@ export default class Thread extends Component {
       messages: [],
     }
     this.toggleDisplayMessages = this.toggleDisplayMessages.bind(this);
+    this.updateMessages = this.updateMessages.bind(this);
+    this.pollInterval = null;
   };
 
-  componentDidMount() {
-    if (this.props.defaultExpanded === true) {
-      this.toggleDisplayMessages();
+  async componentDidMount() {
+    if (this.props.defaultExpanded) {
+      await this.toggleDisplayMessages();
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.pollInterval) {
+      clearInterval(this.pollInterval);
+      this.pollInterval = null;
+    }
+  }
+
+  async getMessages() {
+    const response = await fetch(`/messages?thread_id=${this.props.threadId}`, {
+      method: "GET",
+      credentials: 'include'
+    });
+    if ( response.status === 200 ) {
+      // query successful
+      const messageData = await response.json();
+      return messageData
+    } else {
+      // misc failure(s)
+      alert('Unknown Error. Please contact your site administrator.');
+    }
+  }
+
+  async updateMessages() {
+    const messageData = await this.getMessages();
+    if ( messageData.length > this.state.messages.length ) {
+      this.setState({ messages: messageData });
     }
   }
 
   async toggleDisplayMessages() {
-    // TODO: implement REFRESH button so we re-query messages when button is clicked,
-    // instead of when the thread is expanded
-    if ( this.state.collapsed ) {
-      console.log(`/messages?thread_id=${this.props.threadId}`);
-      const response = await fetch(`/messages?thread_id=${this.props.threadId}`, {
-        method: "GET",
-        credentials: 'include'
-      });
-      if ( response.status === 200 ) {
-        // query successful
-        const messageData = await response.json();
-        this.setState({
-          collapsed: false,
-          messages: messageData,
-        });
-      } else {
-        // misc failure(s)
-        alert('Unknown Error. Please contact your site administrator.');
+    if (this.state.collapsed) {
+      await this.updateMessages();
+      this.setState({ collapsed: false });
+      // poll backend cache for updates 5 times per second
+      if ( this.props.pollForUpdates && !this.pollInterval ) {
+        this.pollInterval = setInterval(this.updateMessages, 200);
       }
     } else {
         this.setState({
           collapsed: true
         });
+        if (this.pollInterval) {
+          clearInterval(this.pollInterval);
+          this.pollInterval = null;
+        }
     }
   }
 

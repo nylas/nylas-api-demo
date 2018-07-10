@@ -192,13 +192,14 @@ def receive_webhook() -> Tuple[Response, int]:
 
     data = request.json
     for delta in data['deltas']:
-        obj_id = delta['object_data']['id']
         if delta['object'] == 'event':
             # we only cache a subset of the most recent events; mark event for refresh
-            event_cache.set_refresh(obj_id)
-        elif delta['object'] == 'thread':
+            event_id = delta['object_data']['id']
+            event_cache.set_refresh(event_id)
+        elif delta['type'] == 'thread.replied':
             # we only cache a subset of the most recent threads; mark thread for refresh
-            thread_messages_cache.set_refresh(obj_id)
+            thread_id = delta['object_data']['metadata']['thread_id']
+            thread_messages_cache.set_refresh(thread_id)
 
     return jsonify('Success'), 200
 
