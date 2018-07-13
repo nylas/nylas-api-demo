@@ -6,6 +6,8 @@ import ComposeLayout from 'layouts/ComposeLayout';
 import ThreadsLayout from 'layouts/ThreadsLayout';
 import SettingsLayout from 'layouts/SettingsLayout';
 
+import { apiHost } from "API";
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -51,7 +53,7 @@ class App extends Component {
   }
 
   async handleLoginSubmit(inputMap) {
-    const response = await fetch(`/login`, {
+    const response = await fetch(`${apiHost()}/login`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(inputMap),
@@ -75,7 +77,7 @@ class App extends Component {
   }
 
   async handleLogoutSubmit() {
-    const response = await fetch(`/logout`, {
+    const response = await fetch(`${apiHost()}/logout`, {
       method: 'POST',
       credentials: 'include',
     });

@@ -1,6 +1,6 @@
 # Nylas API Demo App
 
-The Nylas email & calendar APIs power applications with email and scheduling features from any inbox in the world.
+The Nylas email & calendar APIs power applications with email and scheduling features from any inbox in the world. The demo app is live at [https://nylas-sales-demo.herokuapp.com/]( https://nylas-sales-demo.herokuapp.com/), contact sales@nylas.com for a demo!
 
 
 ## How to run the Backend

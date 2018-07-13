@@ -2,7 +2,6 @@
   "name": "nylas-api-demo",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000/",
   "dependencies": {
     "aphrodite": "^2.2.2",
     "react": "^16.4.0",
@@ -21,5 +20,8 @@
     "babel-cli": "^6.26.0",
     "babel-preset-flow": "^6.23.0",
     "flow-bin": "^0.75.0"
+  },
+  "engines": {
+    "node": "8.11.1"
   }
 }

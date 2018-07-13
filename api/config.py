@@ -9,3 +9,4 @@ class Config(object):
     DEBUG = False
     SECRET_KEY = os.environ.get('FLASK_SECRET', DEFAULT_SECRET_KEY)
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI', DEFAULT_DATABASE_URI)
+    SQLALCHEMY_TRACK_MODIFICATIONS = False

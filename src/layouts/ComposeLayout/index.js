@@ -1,9 +1,11 @@
 // @flow
 import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
-import { STYLES } from 'appConstants';
+
+import { apiHost } from "API";
 import ComposeForm from 'components/ComposeForm';
 import Flexbox from 'components/Flexbox';
+import { STYLES } from 'appConstants';
 import Thread from 'components/Thread';
 
 const { BACKGROUND_COLORS } = STYLES;
@@ -46,7 +48,7 @@ export default class ComposeLayout extends Component {
       "links": false,
       "opens": false,
       "thread_replies": true};
-    const response = await fetch(`/send`, {
+    const response = await fetch(`${apiHost()}/send`, {
       method: "POST",
       credentials: 'include',
       headers: {"Content-Type": "application/json"},

@@ -37,6 +37,7 @@ class User(db.Model):
         self.nylas_access_token = nylas_access_token
         self.company_logo = 'https://admin.nylas.com/favicon.ico'
         self.company_text = 'Nylas API Demo'
+        self.default_calendar = ''
         self.set_password(password)
 
     def serialize(self):
@@ -51,13 +52,12 @@ class User(db.Model):
 
     def set_password(self, password: str) -> None:
         pw_bytes = password.encode('utf-8')
-        self.password_hash = nacl.pwhash.str(pw_bytes)
+        self.password_hash = nacl.pwhash.str(pw_bytes).decode('utf-8')
 
     def check_password(self, password: str) -> bool:
         try:
             pw_bytes = password.encode('utf-8')
-            # Will return True or raise `nacl.exceptions.InvalidkeyError`
-            # See: http://pynacl.readthedocs.io/en/stable/password_hashing/
-            return nacl.pwhash.verify(self.password_hash, pw_bytes)
+            password_hash = self.password_hash.encode('utf-8')
+            return nacl.pwhash.verify(password_hash, pw_bytes)
         except InvalidkeyError:
             return False

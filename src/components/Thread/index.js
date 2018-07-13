@@ -1,10 +1,12 @@
 // @flow
 import React, { Component } from 'react';
 import { StyleSheet } from 'aphrodite/no-important';
-import { STYLES } from 'appConstants';
+
+import { apiHost } from "API";
 import Flexbox from 'components/Flexbox';
 import Header from 'components/Header';
 import Message from 'components/Message';
+import { STYLES } from 'appConstants';
 
 const { BACKGROUND_COLORS } = STYLES;
 
@@ -61,7 +63,7 @@ export default class Thread extends Component {
   }
 
   async getMessages() {
-    const response = await fetch(`/messages?thread_id=${this.props.threadId}`, {
+    const response = await fetch(`${apiHost()}/messages?thread_id=${this.props.threadId}`, {
       method: "GET",
       credentials: 'include'
     });

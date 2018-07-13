@@ -1,9 +1,11 @@
 // @flow
 import React, { Component } from 'react';
 import { StyleSheet } from 'aphrodite/no-important';
-import { STYLES } from 'appConstants';
+
+import { apiHost } from "API";
 import Flexbox from 'components/Flexbox';
 import SettingsForm from 'components/SettingsForm';
+import { STYLES } from 'appConstants';
 
 const { BACKGROUND_COLORS } = STYLES;
 
@@ -29,7 +31,7 @@ export default class SettingsLayout extends Component {
   }
 
   async getCalendars() {
-    const response = await fetch(`/calendars`, {
+    const response = await fetch(`${apiHost()}/calendars`, {
       method: "GET",
       credentials: 'include'
     });
@@ -46,7 +48,7 @@ export default class SettingsLayout extends Component {
   }
 
   async handleSettingsSubmit(inputMap) {
-    const response = await fetch(`/user/${this.props.userId}`, {
+    const response = await fetch(`${apiHost()}/user/${this.props.userId}`, {
       method: "PUT",
       credentials: 'include',
       headers: {"Content-Type": "application/json"},

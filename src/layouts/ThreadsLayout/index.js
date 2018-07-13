@@ -1,8 +1,10 @@
 // @flow
 import React, { Component } from 'react';
 import { StyleSheet } from 'aphrodite/no-important';
-import { STYLES } from 'appConstants';
+
+import { apiHost } from "API";
 import Flexbox from 'components/Flexbox';
+import { STYLES } from 'appConstants';
 import ThreadsForm from 'components/ThreadsForm';
 import Thread from 'components/Thread';
 
@@ -30,7 +32,7 @@ export default class ThreadsLayout extends Component {
   };
 
   async handleGetThreadsSubmit(inputMap) {
-    const response = await fetch(`/threads?any_email=${inputMap.email}`, {
+    const response = await fetch(`${apiHost()}/threads?any_email=${inputMap.email}`, {
       method: "GET",
       credentials: 'include'
     });

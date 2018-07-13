@@ -3,6 +3,7 @@ import os
 from typing import Tuple, Optional
 
 from flask import jsonify, request, session, Response, make_response
+from flask_cors import CORS
 
 from api.cache import MAX_AGE, ObjectCache, ObjectListCache
 from api.index import app, db
@@ -14,6 +15,14 @@ NYLAS_ACCESS_TOKEN_KEY = 'nylas_access_token'
 USER_ID_KEY = 'user_id'
 
 open_traffic_routes = {'/login', '/webhook'}
+CORS(app,
+     resources={'*'},
+     origins=['http://localhost:3000',
+              'https://nylas-sales-demo.herokuapp.com',
+              'https://api.nylas.com'],
+     methods=['GET', 'POST', 'PUT', 'OPTIONS'],
+     allow_headers=['Content-Type'],
+     supports_credentials=True)
 
 event_cache = ObjectCache(max_len=100, max_age_seconds=MAX_AGE)
 thread_messages_cache = ObjectListCache(max_len=100, max_age_seconds=MAX_AGE)
@@ -28,6 +37,9 @@ def get_nylas_api() -> NylasAPI:
 
 @app.before_request
 def check_authorization() -> Optional[Tuple[Response, int]]:
+    # Don't require authentication on preflight requests
+    if request.method == 'OPTIONS':
+        return None
     nylas_access_token = session.get(NYLAS_ACCESS_TOKEN_KEY)
     if request.path not in open_traffic_routes and not nylas_access_token:
         return jsonify({'message': 'Missing credentials'}), 401
