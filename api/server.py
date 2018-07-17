@@ -14,7 +14,6 @@ from api.nylas.nylas_utils import verify_signature
 NYLAS_ACCESS_TOKEN_KEY = 'nylas_access_token'
 USER_ID_KEY = 'user_id'
 
-# FRONTEND = '*nylas-sales-demo.herokuapp.com/' if os.environ['NYLAS_ENV'] == 'production' else '*'
 open_traffic_routes = {'/login', '/webhook'}
 CORS(app,
      resources={'*'},
