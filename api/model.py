@@ -35,7 +35,7 @@ class User(db.Model):
         self.last_name = last_name
         self.email = email
         self.nylas_access_token = nylas_access_token
-        self.company_logo = 'https://admin.nylas.com/favicon.ico'
+        self.company_logo = 'https://www.nylas.com/hubfs/seafoam_preview.jpg'
         self.company_text = 'Nylas API Demo'
         self.default_calendar = ''
         self.set_password(password)

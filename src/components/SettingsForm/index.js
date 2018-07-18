@@ -85,7 +85,7 @@ export default function SettingsForm(props) {
           name="companyLogo"
           label="Company Logo"
           defaultValue={props.companyLogo ? props.companyLogo : ""}
-          placeholder="https://admin.nylas.com/favicon.ico" />
+          placeholder="https://www.nylas.com/hubfs/seafoam_preview.jpg" />
       </Flexbox>
         <Flexbox
           direction="column"
