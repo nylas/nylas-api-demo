@@ -3,8 +3,9 @@ import React, {Component} from 'react';
 import { StyleSheet } from 'aphrodite/no-important';
 import { STYLES } from 'appConstants';
 import Flexbox from 'components/Flexbox';
-import CreateEventForm from "../../components/CreateEventForm";
-import {apiHost} from "../../API";
+import CreateEventForm from "components/CreateEventForm";
+import {apiHost} from "API";
+import Event from "components/Event";
 const { BACKGROUND_COLORS } = STYLES;
 const styleSheet = StyleSheet.create({
   Header: {
@@ -23,13 +24,15 @@ type Props = {
 class CalendarLayout extends Component<Props>{
     constructor(props){
         super(props);
+        this.state = {eventData:{}};
         this.handleCreateEventSubmit = this.handleCreateEventSubmit.bind(this)
-
+        this.baseState = this.state;
     }
+
     async handleCreateEventSubmit(inputMap:{}){
         inputMap.calendar_id= this.props.calendarId;
-        let startTime = (new Date(inputMap.start).getTime()) / 1000 || 0;
-        let endTime = (new Date(inputMap.end).getTime())/ 1000 || 0;
+        let startTime = Date.parse(inputMap.start) / 1000 || 0;
+        let endTime = Date.parse(inputMap.end)/ 1000 || 0;
         inputMap.when= {"start_time": startTime, "end_time": endTime};
         delete  inputMap.start;
         delete inputMap.end;
@@ -54,28 +57,39 @@ class CalendarLayout extends Component<Props>{
           credentials: 'include'
         });
         if (response.status === 200) {
-          const eventData = await  response.json();
-        } else {
+          const eventData = await response.json();
+          console.log(eventData);
+          this.setState({
+              eventData:eventData,
+          });
+        }
+        else {
           alert('Unknown Error. Please contact your site administrator.')
         }
-
     }
+
     render(){
-        return (
+        let content;
+        if (Object.keys(this.state.eventData).length===0 ){
+            content = <CreateEventForm
+                handleCreateEventSubmit = {this.handleCreateEventSubmit}
+            />
+        }
+        else{
+            content = <Event
+                    eventData = {this.state.eventData}
+            />
+        }
+        return(
             <Flexbox
                 direction = "column"
                 styles = {styleSheet.OuterContainer}
                 alignItems = "center"
                 justifyContent = "center"
             >
-                <CreateEventForm
-                    handleCreateEventSubmit = {this.handleCreateEventSubmit}
-                />
-
-
+                {content}
             </Flexbox>
         )
     }
-
 }
 export default CalendarLayout
