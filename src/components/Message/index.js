@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import renderHTML from 'react-render-html';
 import { StyleSheet } from 'aphrodite/no-important';
 import Flexbox from 'components/Flexbox';
 
@@ -27,7 +28,7 @@ export default function Message(props: Props) {
         {props.date}
       </p>
       <p>
-        {props.body}
+        {renderHTML(props.body)}
       </p>
     </Flexbox>
   );

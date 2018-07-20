@@ -113,7 +113,7 @@ export default class Thread extends Component {
       <Message
         key={message.id}
         date={this.makeDateString(message.date)}
-        body={message.snippet}
+        body={message.body}
         from={message.from[0].email} />
     );
     const stringDate = this.makeDateString(this.props.lastMessageTimestamp);
