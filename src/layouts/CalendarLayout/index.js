@@ -58,7 +58,6 @@ class CalendarLayout extends Component<Props>{
         });
         if (response.status === 200) {
           const eventData = await response.json();
-          console.log(eventData);
           this.setState({
               eventData:eventData,
           });
