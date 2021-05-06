@@ -2,7 +2,7 @@ click==6.7
 cryptography==2.2.2
 expiringdict==1.1.4
 Flask==1.0.2
-Flask-Cors==3.0.6
+Flask-Cors==3.0.9
 Flask-Session==0.3.1
 Flask-SQLAlchemy==2.3.2
 Flask-Testing==0.7.1
