@@ -57,3 +57,4 @@ If you plan on using webhooks, the app will need your client secret in order to 
 
 ### Lint:
 `npm run flow`
+test
