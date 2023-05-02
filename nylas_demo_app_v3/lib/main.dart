@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
             ],
           ),
         ),
-        body: Center(
+        body: const Center(
           child: AuthScreen()
         ),
       ),
