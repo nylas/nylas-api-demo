@@ -16,12 +16,13 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.primaryColor,
-          title: Row(
+          title: Expanded(child:
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset("nylas-logo-white.png", height: 25)
+              Image.asset("assets/nylas-logo-white.png", height: 25)
             ],
-          ),
+          ))
         ),
         body: const Center(
           child: AuthScreen()
