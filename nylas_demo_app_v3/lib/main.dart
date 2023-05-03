@@ -5,7 +5,6 @@ import 'package:nylas_demo_app_v3/feature/auth/ui/google_auth_button.dart';
 import 'package:nylas_demo_app_v3/resources/colors.dart';
 
 void main() {
-  
   runApp(
     MultiBlocProvider(providers: [
       BlocProvider<GoogleAuthCubit>(create: (_) => GoogleAuthCubit())
