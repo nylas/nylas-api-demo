@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nylas_demo_app_v3/feature/auth/domain/google_auth_cubit.dart';
 import 'package:nylas_demo_app_v3/feature/auth/ui/google_auth_button.dart';
+import 'package:nylas_demo_app_v3/feature/config/ui/config_screen.dart';
 import 'package:nylas_demo_app_v3/resources/colors.dart';
 
 void main() {
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
           )
         ),
         body: const Center(
-          child: GoogleAuthButton()
+          child: ConfigScreen()
         ),
       ),
     );
