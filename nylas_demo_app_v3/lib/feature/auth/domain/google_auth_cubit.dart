@@ -18,7 +18,8 @@ class GoogleAuthCubit extends Cubit<bool> {
       'redirect_uri': redirectUri
     });
 
-    final result = await FlutterWebAuth2.authenticate(url: url.toString(), callbackUrlScheme: redirectUri);
+    final result = await FlutterWebAuth2.authenticate(url: url.toString(), callbackUrlScheme: 'http');
+    print(result);
 
     final code = Uri.parse(result).queryParameters['code'];
 
