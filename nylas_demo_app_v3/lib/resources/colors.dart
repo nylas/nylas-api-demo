@@ -1,5 +1,6 @@
 import 'dart:ui';
 
 class AppColors {
-  static const primaryColor = Color(0x4169E0FF);
+  //ALPHA is 2 first characters after x.
+  static const primaryColor = Color(0xFF4169E0);
 }

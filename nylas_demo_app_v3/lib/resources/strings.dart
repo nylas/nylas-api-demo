@@ -1,3 +1,3 @@
 class AppStrings {
-  static const welcome = "Welcome to Nylas Demo App!";
+  static const nylas = "Nylas";
 }
