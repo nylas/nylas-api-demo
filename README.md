@@ -1,59 +1,25 @@
-# Nylas API Demo App
+> [!CAUTION]
+> 🛑 **This repository is archived and no longer maintained.**
+>
+> This was an example application built on the Nylas v2 API (using access tokens and the old OAuth flow) and no longer reflects current Nylas APIs or best practices. Do not use it for new projects — see current Nylas resources below.
 
-The Nylas email & calendar APIs power applications with email and scheduling features from any inbox in the world. The demo app is live at [https://nylas-sales-demo.herokuapp.com/]( https://nylas-sales-demo.herokuapp.com/), contact sales@nylas.com for a demo!
+<div align="center">
+  <a href="https://www.nylas.com/">
+    <img width="100%" alt="Nylas" src="https://github.com/user-attachments/assets/137517ae-244d-47a5-8ca7-b12984971fc4" />
+  </a>
 
+  <h1>Nylas API Demo</h1>
 
-## How to run the Backend
+  <p><img src="https://img.shields.io/badge/Status-Archived-critical?style=for-the-badge" alt="Status: Archived" /></p>
+</div>
 
-The server code was developed on Python 3.6.5
+<br />
 
-### Download, create and activate your virtual environment:
-```
-pip3 install virtualenv
-virtualenv .venv --python=python3
-source .venv/bin/activate
-```
+## Current samples & getting started
 
-### Install python dependencies:
-```
-pip3 install -r requirements.txt
-pip3 install .
-```
+The Nylas v3 API uses grants and API keys (not v2 access tokens). Start here instead:
 
-### Install react/js dependencies:
-```
-yarn install
-```
-
-### Create database and tables:
-`nylas_demo create_tables`
-
-### Seed database with user data:
-`nylas_demo add_user <first_name> <last_name> <email> <password> <nylas_access_token>`
-
-Please see our [API documentation](https://docs.nylas.com/reference#authentication) on hosted and native authentication for information on how to authenticate new users, and receive access tokens.
-
-To use the API without implementing authentication, visit the [Nylas Dashboard]( https://dashboard.nylas.com/sign-in) and register for a developer account. After you have registered, you can click 'Auth Account' to sync a new email account, and get your access token.
-
-### Export environment variables
-If you plan on using webhooks, the app will need your client secret in order to verify incoming webhooks. You can find your secret in the [Nylas Dashboard]( https://dashboard.nylas.com/sign-in) in the Dashboard view. Click the eye icon beside App Secret to copy/paste.
-
-`export NYLAS_OAUTH_CLIENT_SECRET=<nylas_client_secret>`
-
-### Run:
-`flask run`
-
-### Lint:
-`mypy api --ignore-missing-imports`
-
-### Test:
-`pytest -v`
-
-
-## How to run the Frontend
-
-### Run:
-`yarn start` runs the front-end at [http://localhost:3000](http://localhost:3000)
-
-### Lint:
-`npm run flow`
+- ⚡ [Getting started with Nylas v3](https://developer.nylas.com/docs/v3/getting-started/)
+- 💡 [Browse current sample apps](https://github.com/orgs/nylas-samples/repositories)
+- 📖 [Developer documentation](https://developer.nylas.com/)
+- 🚀 [Sign up for free](https://dashboard-v3.nylas.com/register)
