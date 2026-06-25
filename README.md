@@ -1,16 +1,19 @@
+> [!CAUTION]
+> 🛑 **This repository is archived and no longer maintained.**
+>
+> This was an example application built on the Nylas v2 API (using access tokens and the old OAuth flow) and no longer reflects current Nylas APIs or best practices. Do not use it for new projects — see current Nylas resources below.
+
 <div align="center">
   <a href="https://www.nylas.com/">
     <img width="100%" alt="Nylas" src="https://github.com/user-attachments/assets/137517ae-244d-47a5-8ca7-b12984971fc4" />
   </a>
 
   <h1>Nylas API Demo</h1>
+
+  <p><img src="https://img.shields.io/badge/Status-Archived-critical?style=for-the-badge" alt="Status: Archived" /></p>
 </div>
 
 <br />
-
-> ## ⚠️ This repository is archived and no longer maintained
->
-> This was an example application built on the Nylas v2 API (using access tokens and the old OAuth flow). It is preserved for historical reference and no longer reflects current Nylas APIs or best practices.
 
 ## Current samples & getting started
 
